@@ -38,7 +38,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-black text-white selection:bg-emerald-500/30">
       <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/80 backdrop-blur-xl">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        <div className="container mx-auto max-w-7xl flex h-16 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10">
               <Aperture className="h-5 w-5 text-orange-500" />
@@ -90,7 +90,7 @@ export default function LandingPage() {
         <section className="relative overflow-hidden border-b border-white/5 py-32 md:py-40">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_-30%,#1f2937,transparent)]" />
-          <div className="container relative z-10 px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl relative z-10 px-4 md:px-6">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
               <div className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start">
                 <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm text-emerald-400 backdrop-blur-sm">
@@ -202,7 +202,7 @@ export default function LandingPage() {
         </section>
 
         <section id="features" className="py-32 bg-black relative">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="mb-20 text-center">
               <h2 className="mb-4 text-4xl font-bold tracking-tight text-white">Built for Developers</h2>
               <p className="text-xl text-zinc-400">Everything you need for automated web capture.</p>
@@ -272,7 +272,7 @@ export default function LandingPage() {
         </section>
 
         <section id="demo" className="border-y border-white/5 bg-zinc-950/50 py-32">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="mb-16 text-center">
               <h2 className="mb-4 text-4xl font-bold tracking-tight text-white">See it in action</h2>
               <p className="text-xl text-zinc-400">No headless browser setup. Just input and output.</p>
@@ -383,7 +383,7 @@ export default function LandingPage() {
         </section>
 
         <section className="border-b border-white/5 bg-black py-32">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto max-w-3xl">
               <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">Common Questions</h2>
               <div className="space-y-4">
@@ -427,7 +427,7 @@ export default function LandingPage() {
 
         <section id="pricing" className="py-32 bg-black relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,#1f2937,transparent)] opacity-40" />
-          <div className="container relative z-10 px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl relative z-10 px-4 md:px-6">
             <div className="mb-20 text-center">
               <h2 className="mb-4 text-4xl font-bold tracking-tight text-white">Simple, Transparent Pricing</h2>
               <p className="text-xl text-zinc-400">One plan, everything included. No hidden fees.</p>
@@ -477,7 +477,7 @@ export default function LandingPage() {
         </section>
 
         <footer className="border-t border-white/10 bg-black py-12">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="flex items-center gap-2">
                 <div className="flex h-6 w-6 items-center justify-center rounded bg-orange-500/10">
