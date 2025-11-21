@@ -19,7 +19,33 @@ import {
   Play,
   Aperture,
   Palette,
+  Copy,
 } from "lucide-react"
+
+type Theme = "emerald" | "blue" | "purple" | "orange"
+
+const themeConfig: Record<Theme, { gradient: string; glow: string; accent: string }> = {
+  emerald: {
+    gradient: "from-emerald-400 to-cyan-500",
+    glow: "bg-emerald-500/20",
+    accent: "emerald",
+  },
+  blue: {
+    gradient: "from-blue-400 to-cyan-500",
+    glow: "bg-blue-500/20",
+    accent: "blue",
+  },
+  purple: {
+    gradient: "from-purple-400 to-pink-500",
+    glow: "bg-purple-500/20",
+    accent: "purple",
+  },
+  orange: {
+    gradient: "from-orange-400 to-pink-500",
+    glow: "bg-orange-500/20",
+    accent: "orange",
+  },
+}
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -27,6 +53,8 @@ export default function LandingPage() {
   const [demoFormat, setDemoFormat] = useState("screenshot")
   const [demoViewport, setDemoViewport] = useState("desktop")
   const [demoFullPage, setDemoFullPage] = useState(true)
+  const [theme, setTheme] = useState<Theme>("emerald")
+  const [copied, setCopied] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -34,6 +62,37 @@ export default function LandingPage() {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
+
+  const cycleTheme = () => {
+    const themes: Theme[] = ["emerald", "blue", "purple", "orange"]
+    const currentIndex = themes.indexOf(theme)
+    const nextIndex = (currentIndex + 1) % themes.length
+    setTheme(themes[nextIndex])
+  }
+
+  const copyCode = () => {
+    const code = `const response = await fetch('https://api.snapapi.dev/v1/capture', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sk_live_...'
+  },
+  body: JSON.stringify({
+    url: 'https://nike.com',
+    format: 'png',
+    full_page: true
+  })
+});
+
+// It's that simple.
+const image = await response.blob();`
+
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  const currentTheme = themeConfig[theme]
 
   return (
     <div className="flex min-h-screen flex-col bg-black text-white selection:bg-emerald-500/30">
@@ -73,7 +132,11 @@ export default function LandingPage() {
               <Github className="h-4 w-4" />
               Star on GitHub
             </Link>
-            <button className="rounded-full bg-white/5 p-2 text-zinc-400 hover:text-white">
+            <button
+              onClick={cycleTheme}
+              className="rounded-full bg-white/5 p-2 text-zinc-400 hover:text-white transition-colors"
+              aria-label="Change theme"
+            >
               <Palette className="h-4 w-4" />
             </button>
           </nav>
@@ -93,17 +156,21 @@ export default function LandingPage() {
           <div className="container mx-auto max-w-7xl relative z-10 px-4 md:px-6">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
               <div className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start">
-                <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm text-emerald-400 backdrop-blur-sm">
+                <div
+                  className={`mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-${currentTheme.accent}-500/20 bg-${currentTheme.accent}-500/10 px-4 py-1.5 text-sm text-${currentTheme.accent}-400 backdrop-blur-sm`}
+                >
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                    <span
+                      className={`absolute inline-flex h-full w-full animate-ping rounded-full bg-${currentTheme.accent}-400 opacity-75`}
+                    ></span>
+                    <span className={`relative inline-flex h-2 w-2 rounded-full bg-${currentTheme.accent}-500`}></span>
                   </span>
                   V1.0 Public Beta
                 </div>
                 <h1 className="mb-6 text-6xl font-black tracking-tighter sm:text-7xl md:text-8xl italic">
                   JUST
                   <br />
-                  <span className="bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+                  <span className={`bg-gradient-to-r ${currentTheme.gradient} bg-clip-text text-transparent`}>
                     SNAP IT.
                   </span>
                 </h1>
@@ -132,20 +199,26 @@ export default function LandingPage() {
                 </div>
                 <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-zinc-400 font-medium">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
-                      <Check className="h-3 w-3 text-emerald-500" />
+                    <div
+                      className={`flex h-5 w-5 items-center justify-center rounded-full bg-${currentTheme.accent}-500/10`}
+                    >
+                      <Check className={`h-3 w-3 text-${currentTheme.accent}-500`} />
                     </div>
                     Backed by Stripe
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
-                      <Check className="h-3 w-3 text-emerald-500" />
+                    <div
+                      className={`flex h-5 w-5 items-center justify-center rounded-full bg-${currentTheme.accent}-500/10`}
+                    >
+                      <Check className={`h-3 w-3 text-${currentTheme.accent}-500`} />
                     </div>
                     Built on Node.js
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
-                      <Check className="h-3 w-3 text-emerald-500" />
+                    <div
+                      className={`flex h-5 w-5 items-center justify-center rounded-full bg-${currentTheme.accent}-500/10`}
+                    >
+                      <Check className={`h-3 w-3 text-${currentTheme.accent}-500`} />
                     </div>
                     99.9% Uptime
                   </div>
@@ -154,7 +227,9 @@ export default function LandingPage() {
 
               <div className="relative mx-auto w-full max-w-[600px] lg:max-w-none">
                 <div className="relative rounded-xl border border-white/10 bg-[#0A0A0A] shadow-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 via-transparent to-transparent" />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-tr from-${currentTheme.accent}-500/5 via-transparent to-transparent`}
+                  />
                   <div className="flex items-center justify-between border-b border-white/5 bg-[#0A0A0A] px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-[#FF5F56]" />
@@ -162,7 +237,17 @@ export default function LandingPage() {
                       <div className="h-3 w-3 rounded-full bg-[#27C93F]" />
                     </div>
                     <div className="text-xs font-medium text-zinc-500">index.js</div>
-                    <div className="h-4 w-4" />
+                    <button
+                      onClick={copyCode}
+                      className="flex items-center justify-center h-8 w-8 rounded hover:bg-white/5 transition-colors group"
+                      aria-label="Copy code"
+                    >
+                      {copied ? (
+                        <Check className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <Copy className="h-4 w-4 text-zinc-500 group-hover:text-zinc-300" />
+                      )}
+                    </button>
                   </div>
                   <div className="p-6 overflow-x-auto">
                     <pre className="text-sm font-mono leading-relaxed">
@@ -194,8 +279,7 @@ export default function LandingPage() {
                     </pre>
                   </div>
                 </div>
-                {/* Glow effect behind code block */}
-                <div className="absolute -inset-4 -z-10 bg-emerald-500/20 blur-3xl opacity-20" />
+                <div className={`absolute -inset-4 -z-10 ${currentTheme.glow} blur-3xl opacity-20`} />
               </div>
             </div>
           </div>
