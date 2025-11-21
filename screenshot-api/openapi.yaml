@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: Screenshot & PDF API
+  version: 1.0.0
+  description: A high-performance microservice for capturing screenshots and generating PDFs.
+servers:
+  - url: http://localhost:3000/v1
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+security:
+  - ApiKeyAuth: []
+paths:
+  /screenshot:
+    post:
+      summary: Capture a screenshot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url:
+                  type: string
+                fullPage:
+                  type: boolean
+                darkMode:
+                  type: boolean
+      responses:
+        200:
+          description: PNG image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+  /pdf:
+    post:
+      summary: Generate a PDF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url:
+                  type: string
+                format:
+                  type: string
+                  enum: [A4, Letter]
+      responses:
+        200:
+          description: PDF document
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
