@@ -28,6 +28,13 @@ export default function LandingPage() {
   const [demoViewport, setDemoViewport] = useState("desktop")
   const [demoFullPage, setDemoFullPage] = useState(true)
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-black text-white selection:bg-emerald-500/30">
       <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/80 backdrop-blur-xl">
@@ -39,17 +46,28 @@ export default function LandingPage() {
             <span className="text-xl font-bold tracking-tight">SnapAPI</span>
           </div>
           <nav className="hidden gap-6 md:flex items-center">
-            <Link href="#features" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
+            <button
+              onClick={() => scrollToSection("features")}
+              className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
+            >
               Features
-            </Link>
-            <Link href="#demo" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
+            </button>
+            <button
+              onClick={() => scrollToSection("demo")}
+              className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
+            >
               Demo
-            </Link>
-            <Link href="#pricing" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
+            </button>
+            <button
+              onClick={() => scrollToSection("pricing")}
+              className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
+            >
               Pricing
-            </Link>
+            </button>
             <Link
-              href="#"
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-medium text-zinc-200 transition-colors hover:bg-white/10"
             >
               <Github className="h-4 w-4" />
@@ -59,7 +77,12 @@ export default function LandingPage() {
               <Palette className="h-4 w-4" />
             </button>
           </nav>
-          <Button className="bg-white text-black hover:bg-zinc-200 font-semibold">Get API Key</Button>
+          <Button
+            onClick={() => scrollToSection("pricing")}
+            className="bg-white text-black hover:bg-zinc-200 font-semibold"
+          >
+            Get API Key
+          </Button>
         </div>
       </header>
 
@@ -69,7 +92,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_-30%,#1f2937,transparent)]" />
           <div className="container relative z-10 px-4 md:px-6">
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-              <div className="flex flex-col justify-center text-left">
+              <div className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start">
                 <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm text-emerald-400 backdrop-blur-sm">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
@@ -88,12 +111,17 @@ export default function LandingPage() {
                   Don't overcomplicate it. Turn any URL into a pixel-perfect screenshot or PDF with a single API call.
                   The web, captured.
                 </p>
-                <div className="flex flex-col gap-4 sm:flex-row">
-                  <Button size="lg" className="h-12 px-8 bg-white text-black hover:bg-zinc-200 text-base font-bold">
+                <div className="flex flex-col gap-4 sm:flex-row w-full sm:w-auto">
+                  <Button
+                    onClick={() => scrollToSection("pricing")}
+                    size="lg"
+                    className="h-12 px-8 bg-white text-black hover:bg-zinc-200 text-base font-bold"
+                  >
                     Start Building
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Button
+                    onClick={() => scrollToSection("demo")}
                     size="lg"
                     variant="outline"
                     className="h-12 px-8 border-white/10 bg-transparent text-white hover:bg-white/5 text-base font-medium"
@@ -102,7 +130,7 @@ export default function LandingPage() {
                     Live Demo
                   </Button>
                 </div>
-                <div className="mt-12 flex flex-wrap items-center gap-6 text-sm text-zinc-400 font-medium">
+                <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-zinc-400 font-medium">
                   <div className="flex items-center gap-2">
                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
                       <Check className="h-3 w-3 text-emerald-500" />
@@ -315,7 +343,15 @@ export default function LandingPage() {
                         Full Page
                       </label>
                     </div>
-                    <Button className="w-full h-14 bg-gradient-to-r from-pink-500 to-orange-400 text-white hover:opacity-90 transition-opacity text-lg font-bold shadow-lg shadow-orange-500/20 border-0">
+                    <Button
+                      onClick={() => {
+                        console.log("[v0] Demo execution:", { demoUrl, demoFormat, demoViewport, demoFullPage })
+                        alert(
+                          `Demo: Would capture ${demoUrl} as ${demoFormat} with ${demoViewport} viewport${demoFullPage ? " (full page)" : ""}`,
+                        )
+                      }}
+                      className="w-full h-14 bg-gradient-to-r from-pink-500 to-orange-400 text-white hover:opacity-90 transition-opacity text-lg font-bold shadow-lg shadow-orange-500/20 border-0"
+                    >
                       <Zap className="mr-2 h-5 w-5 fill-current" />
                       Execute Request
                     </Button>
@@ -424,6 +460,10 @@ export default function LandingPage() {
                     ))}
                   </ul>
                   <Button
+                    onClick={() => {
+                      console.log("[v0] Initiating checkout for Pro Developer plan")
+                      alert("Checkout: This would redirect to Stripe payment for the Pro Developer plan ($29/mo)")
+                    }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base font-bold rounded-xl transition-all hover:scale-[1.02]"
                     size="lg"
                   >
@@ -446,16 +486,21 @@ export default function LandingPage() {
                 <span className="font-bold text-white">SnapAPI</span>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-zinc-400 font-medium">
-                <Link href="#" className="hover:text-white transition-colors">
+                <button onClick={() => scrollToSection("features")} className="hover:text-white transition-colors">
                   Features
-                </Link>
-                <Link href="#" className="hover:text-white transition-colors">
+                </button>
+                <button onClick={() => scrollToSection("demo")} className="hover:text-white transition-colors">
                   Demo
-                </Link>
-                <Link href="#" className="hover:text-white transition-colors">
+                </button>
+                <button onClick={() => scrollToSection("pricing")} className="hover:text-white transition-colors">
                   Pricing
-                </Link>
-                <Link href="#" className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                </button>
+                <Link
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors"
+                >
                   <Github className="h-4 w-4" />
                   Star on GitHub
                 </Link>
